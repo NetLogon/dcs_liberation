@@ -43,23 +43,26 @@ class PersianGulfTheater(ConflictTheater):
     shiraz = ControlPoint.from_airport(persiangulf.Shiraz_International_Airport, LAND, SIZE_BIG, IMPORTANCE_HIGH)
     kerman = ControlPoint.from_airport(persiangulf.Kerman_Airport, LAND, SIZE_BIG, IMPORTANCE_HIGH)
 
+    ras_al_khaimah = ControlPoint.from_airport(persiangulf.Ras_Al_Khaimah, LAND, SIZE_REGULAR, IMPORTANCE_MEDIUM)
+    al_ain = ControlPoint.from_airport(persiangulf.Al_Ain_International_Airport, LAND, SIZE_BIG, IMPORTANCE_HIGH)
+    liwa = ControlPoint.from_airport(persiangulf.Liwa_Airbase, LAND, SIZE_BIG, IMPORTANCE_HIGH)
+
     west_carrier = ControlPoint.carrier("West carrier", Point(-69043.813952358, -159916.65947136))
     east_carrier = ControlPoint.carrier("East carrier", Point(59514.324335475, 28165.517980635))
 
     def __init__(self):
         super(PersianGulfTheater, self).__init__()
 
-        self.add_controlpoint(self.shiraz, connected_to=[self.lar, self.kerman])
-        self.add_controlpoint(self.kerman, connected_to=[self.lar, self.shiraz])
-        self.add_controlpoint(self.lar, connected_to=[self.bandar_lengeh, self.qeshm, self.havadarya, self.shiraz, self.kerman])
-
-        self.add_controlpoint(self.al_dhafra, connected_to=[self.sir_abu_nuayr, self.al_maktoum])
-        self.add_controlpoint(self.al_maktoum, connected_to=[self.al_dhafra, self.al_minhad, self.sir_abu_nuayr])
+        self.add_controlpoint(self.liwa, connected_to=[self.al_dhafra])
+        self.add_controlpoint(self.al_dhafra, connected_to=[self.liwa, self.sir_abu_nuayr, self.al_maktoum, self.al_ain])
+        self.add_controlpoint(self.al_ain, connected_to=[self.al_dhafra, self.al_maktoum])
+        self.add_controlpoint(self.al_maktoum, connected_to=[self.al_dhafra, self.al_minhad, self.sir_abu_nuayr, self.al_ain])
         self.add_controlpoint(self.al_minhad, connected_to=[self.al_maktoum, self.dubai])
         self.add_controlpoint(self.dubai, connected_to=[self.al_minhad, self.sharjah])
-        self.add_controlpoint(self.sharjah, connected_to=[self.dubai, self.khasab])
+        self.add_controlpoint(self.sharjah, connected_to=[self.dubai, self.ras_al_khaimah])
+        self.add_controlpoint(self.ras_al_khaimah, connected_to=[self.sharjah, self.khasab])
         self.add_controlpoint(self.fujairah, connected_to=[self.dubai, self.khasab])
-        self.add_controlpoint(self.khasab, connected_to=[self.sharjah, self.fujairah, self.tunb_island])
+        self.add_controlpoint(self.khasab, connected_to=[self.ras_al_khaimah, self.fujairah, self.tunb_island])
 
         self.add_controlpoint(self.sir_abu_nuayr, connected_to=[self.al_dhafra, self.al_maktoum, self.sirri])
         self.add_controlpoint(self.sirri, connected_to=[self.sir_abu_nuayr, self.abu_musa])
@@ -68,13 +71,17 @@ class PersianGulfTheater(ConflictTheater):
 
         self.add_controlpoint(self.tunb_island, connected_to=[self.khasab, self.qeshm, self.tunb_kochak])
         self.add_controlpoint(self.bandar_lengeh, connected_to=[self.tunb_island, self.lar, self.qeshm])
-        self.add_controlpoint(self.qeshm, connected_to=[self.bandar_lengeh, self.havadarya, self.tunb_island, self.lar])
+        self.add_controlpoint(self.qeshm, connected_to=[self.bandar_lengeh, self.havadarya, self.tunb_island])
         self.add_controlpoint(self.havadarya, connected_to=[self.lar, self.qeshm, self.bandar_abbas])
         self.add_controlpoint(self.bandar_abbas, connected_to=[self.havadarya])
+
+        self.add_controlpoint(self.shiraz, connected_to=[self.lar, self.kerman])
+        self.add_controlpoint(self.kerman, connected_to=[self.lar, self.shiraz, self.bandar_abbas])
+        self.add_controlpoint(self.lar, connected_to=[self.bandar_lengeh, self.havadarya, self.shiraz, self.kerman])
 
         self.add_controlpoint(self.west_carrier)
         self.add_controlpoint(self.east_carrier)
 
         self.west_carrier.captured = True
         self.east_carrier.captured = True
-        self.al_dhafra.captured = True
+        self.liwa.captured = True
